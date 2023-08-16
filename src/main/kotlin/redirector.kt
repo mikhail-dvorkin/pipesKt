@@ -2,7 +2,16 @@ import kotlinx.coroutines.*
 import java.io.*
 import kotlin.system.exitProcess
 
-suspend fun main() {
+suspend fun main(args: Array<String>) {
+	val isShowcase = "--showcase" in args
+	if (isShowcase) println("This is redirector, ran in showcase mode.")
+	fun exit() {
+		if (isShowcase) {
+			println("Redirector finished successfully. Will exit in 3s.")
+			Thread.sleep(3_000)
+		}
+		exitProcess(0)
+	}
 	val fileName = "redirector"
 	val inputFileName = "$fileName.out"
 	val outputFileName = "$fileName.in"
@@ -20,7 +29,7 @@ suspend fun main() {
 				}
 				System.`in`.close()
 				outputThread!!.cancel()
-				exitProcess(0) // dirty fix
+				exit() // dirty fix
 			} }
 			outputThread = launch { runInterruptible {
 				val outputPipe = createOutputPipe(outputFileName)
@@ -31,7 +40,7 @@ suspend fun main() {
 					output!!.flush()
 				}
 				inputThread.cancel()
-				exitProcess(0) // dirty fix
+				exit() // dirty fix
 			} }
 		}
 	} catch (e: Exception) {
