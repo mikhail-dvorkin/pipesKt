@@ -7,11 +7,13 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.*
 import androidx.compose.ui.input.pointer.*
 import androidx.compose.ui.text.style.*
+import androidx.compose.ui.window.*
 import androidx.compose.ui.unit.*
 import com.sun.jna.*
 import kotlinx.coroutines.*
@@ -79,9 +81,10 @@ fun CheckBoxWithText(state: MutableState<Boolean>, label: String) {
 
 const val DP_SIZE = 644
 
-fun visualizerMain() = Window(
+fun visualizerMain() = application { Window(
+    onCloseRequest = ::exitApplication,
     title = "Визуализатор для задачи «Игра с тайным смыслом»",
-    size = IntSize(DP_SIZE, DP_SIZE)
+    state = rememberWindowState(width = DP_SIZE.dp, height = DP_SIZE.dp)
 ) {
     val game = remember { mutableStateOf<GameManager?>(null) }
     val fieldSize = remember { mutableStateOf("32") }
@@ -389,7 +392,7 @@ fun visualizerMain() = Window(
         }
     }
     drawMutex.unlock()
-}
+} }
 
 private fun GameManager.drawGameState(canvas: DrawScope) = with(canvas) {
     val n = fieldSize

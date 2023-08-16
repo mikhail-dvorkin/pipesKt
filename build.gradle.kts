@@ -4,8 +4,9 @@ import org.jetbrains.compose.desktop.application.dsl.*
 import org.jetbrains.kotlin.gradle.tasks.*
 
 plugins {
-    kotlin("jvm") version "1.4.30"
-    id("org.jetbrains.compose") version "0.3.0"
+    kotlin("jvm") version "1.9.0"
+    id("org.jetbrains.compose") version "1.4.3"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 group = "me.pavel"
@@ -61,6 +62,7 @@ val fatJar = task("fatJar", type = Jar::class) {
 
 tasks {
     "build" {
-        dependsOn(fatJar)
+//        dependsOn(fatJar)
+        dependsOn(shadowJar)
     }
 }
