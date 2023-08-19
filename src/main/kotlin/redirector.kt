@@ -3,6 +3,7 @@ import java.io.*
 import kotlin.system.exitProcess
 
 suspend fun main(args: Array<String>) {
+	if ("--help" in args) return println("This is redirector")
 	val isShowcase = "--showcase" in args
 	if (isShowcase) println("This is redirector, ran in showcase mode.")
 	fun exit() {
