@@ -5,6 +5,7 @@ import kotlin.system.exitProcess
 suspend fun main(args: Array<String>) {
 	if ("--help" in args) return println("This is redirector")
 	val isShowcase = "--showcase" in args
+	val fileName = args.singleOrNull { !it.startsWith("--") } ?: "redirector"
 	if (isShowcase) println("This is redirector, ran in showcase mode.")
 	fun exit() {
 		if (isShowcase) {
@@ -13,7 +14,6 @@ suspend fun main(args: Array<String>) {
 		}
 		exitProcess(0)
 	}
-	val fileName = "redirector"
 	val inputFileName = "$fileName.out"
 	val outputFileName = "$fileName.in"
 	var input: BufferedReader? = null
